@@ -25,7 +25,7 @@ default['falcon']['sensor_tmp_dir'] = case node['kernel']['name']
 
 
 # falcon::config
-default['falcon']['client_id'] = nil
+default['falcon']['cid'] = nil
 default['falcon']['provisioning_token'] = nil
 default['falcon']['proxy_host'] =  nil
 default['falcon']['proxy_port'] = nil
