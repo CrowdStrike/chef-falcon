@@ -13,5 +13,8 @@
 				"chef-software.chef"
 			]
 		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:1": {}
 	}
 }

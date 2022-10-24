@@ -17,3 +17,7 @@ issues_url 'https://github.com/CrowdStrike/chef-falcon/issues'
 # a Supermarket.
 #
 source_url 'https://github.com/CrowdStrike/chef-falcon'
+supports 'redhat'
+# %w( aix amazon centos fedora freebsd debian oracle mac_os_x redhat suse opensuseleap ubuntu windowszlinux ).each do |os|
+#   supports os
+# end
