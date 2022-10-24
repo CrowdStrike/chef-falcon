@@ -8,7 +8,7 @@ module ChefFalcon
       unless os_version.nil?
         query += "+os_version:'#{os_version}'"
       end
-      query += if node['architecture'].casecmp('arm64').zero?
+      query += if node['cpu']['architecture'].casecmp('arm64').zero?
                  "+os_version:~'arm64'"
                else
                  "+os_version:!~'arm64'"
@@ -62,23 +62,23 @@ module ChefFalcon
       platform_name = platform()
       os_name = os_name()
 
-      falcon_api = FalconApi.new(falcon_cloud: options['falcon_cloud'], client_id: client_id, client_secret: client_secret)
+      falcon_api = Api::FalconApi.new(falcon_cloud: options[:falcon_cloud], client_id: client_id, client_secret: client_secret)
       falcon_api.platform_name = platform_name
 
       # If version is provied, use it to get the sensor package info
-      if options.key?('version') && !options['version'].nil?
+      if options.key?('version') && !options[:version].nil?
         query = build_sensor_installer_query(platform_name: platform_name, version: version, os_name: os_name, os_version: os_version)
         installer = falcon_api.falcon_installers(query)[0]
       # If update_policy is provided, use it to get the sensor package info
-      elsif options.key?('update_policy') && !options['update_policy'].nil?
-        falcon_api.update_policy = options['update_policy']
+      elsif options.key?(:update_policy) && !options[:update_policy].nil?
+        falcon_api.update_policy = options[:update_policy]
         version = falcon_api.version_from_update_policy
         query = build_sensor_installer_query(platform_name: platform_name, version: version, os_name: os_name, os_version: os_version)
         installer = falcon_api.falcon_installers(query)[0]
       # If neither are provided, use the `version_decrement` to pull the n-x version for the platform and os`
       else
         query = build_sensor_installer_query(platform_name: platform_name, os_name: os_name, os_version: os_version)
-        version_decrement = options['version_decrement']
+        version_decrement = options[:version_decrement]
         installers = falcon_api.falcon_installers(query)
 
         if version_decrement >= installers.length
@@ -90,7 +90,7 @@ module ChefFalcon
         version = installer['version']
       end
 
-      file_path = File.join(options['sensor_tmp_dir'], installer['name'])
+      file_path = File.join(options[:sensor_tmp_dir], installer['name'])
 
       # CrowdStrike API returns versions like 6.25.1302, but on linux once we install the package version is
       # 6.25.0-1302 so the below regex is used to make this change.
@@ -107,6 +107,7 @@ module ChefFalcon
         'platform_name' => platform_name,
         'os_name' => os_name,
       }
+
     end
   end
 end
