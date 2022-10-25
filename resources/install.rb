@@ -48,9 +48,6 @@ action :install do
       end
     end
 
-    # apt update prior to installing the package
-    # apt_update 'update' if debian?
-
     package 'falcon' do
       source sensor_info['file_path']
       only_if { ::File.exist?(sensor_info['file_path']) }
