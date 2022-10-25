@@ -2,6 +2,8 @@
 driver:
   name: dokken
   privileged: true  # allows systemd services to start
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+  chef_license: accept-no-persist
 
 provisioner:
   name: dokken
