@@ -1,8 +1,8 @@
-name 'chef-falcon'
+name 'crowdstrike-falcon'
 maintainer 'CRWD Solutions Architects'
 maintainer_email 'integrations@crowdstrike.com'
 license 'All Rights Reserved'
-description 'Installs/Configures chef-falcon'
+description 'Installs/Configures crowdstrike-falcon'
 version '0.1.0'
 chef_version '>= 16.0'
 

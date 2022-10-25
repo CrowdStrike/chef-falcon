@@ -7,7 +7,7 @@ end
 
 falcon_config 'falcon' do
   cid ENV['FALCON_CID']
-  notifies :restart, 'service[falcon]', :delayed
+  notifies :restart, 'falcon_service[falcon]', :delayed
   action :set
 end
 
