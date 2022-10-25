@@ -3,7 +3,7 @@ unified_mode true
 
 default_action :set
 
-property :cid, String,
+property :cid, String, sensitive: true,
           description: 'the Customer CID to register the agent with'
 property :proxy_host, String,
           description: 'the proxy host to use for the agent'
@@ -11,7 +11,7 @@ property :proxy_port, Integer,
           description: 'the proxy port to use for the agent'
 property :proxy_enabled, [true, false],
           description: 'whether or not to enable the proxy for the agent'
-property :tags, Array,
+property :tags, Array, default: [],
           description: 'the tags to set on the agent'
 property :provisioning_token, String, desired_state: false,
           description: 'the provisioning token to use to register the agent'

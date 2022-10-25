@@ -3,6 +3,8 @@ name: ci
 
 "on":
   push:
+    branches:
+      - nonna
 
 jobs:
   lint-unit:
@@ -25,7 +27,6 @@ jobs:
           - centos-7
           - debian-10
           - debian-11
-          - fedora-latest
           - opensuse-leap-15
           - rockylinux-8
           - ubuntu-1804
