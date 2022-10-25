@@ -11,6 +11,12 @@
 
 falcon_install 'falcon' do
   action :install
-  client_id ''
-  client_secret ''
+end
+
+falcon_config 'falcon' do
+  action :set
+  tags ['test', 'test2']
+  proxy_host 'proxy.example.com'
+  proxy_port 8080
+  proxy_enabled true
 end

@@ -30,7 +30,7 @@ action :install do
 
   if new_resource.install_method == 'api'
     if new_resource.client_id.nil? || new_resource.client_secret.nil?
-      raise ArgumentError, 'client_id and client_secret are required when using the api install method' 
+      raise ArgumentError, 'client_id and client_secret are required when using the api install method'
     end
 
     sensor_info = sensor_download_info(new_resource.client_id, new_resource.client_secret, {
@@ -43,15 +43,28 @@ action :install do
       remote_file 'falcon' do
         path sensor_info['file_path']
         source sensor_info['url']
-        headers({ 'Authorization' => "Bearer #{sensor_info['bearer_token']}", 'User-Agent' => 'chef-falcon/0.0.1' })
+        headers({ 'Authorization' => "Bearer #{sensor_info['bearer_token']}", 'User-Agent' => 'chef-falcon/0.1.0' })
         action :create
       end
     end
 
+    # apt update prior to installing the package
+    # apt_update 'update' if debian?
+
     package 'falcon' do
       source sensor_info['file_path']
       only_if { ::File.exist?(sensor_info['file_path']) }
+      provider Chef::Provider::Package::Dpkg if debian?
+      options '--force-all' if debian?
       action :install
+      notifies :run, 'execute[falcon]', :immediately if debian?
+    end
+
+    # Only run on debian based systems after package install
+    execute 'falcon' do
+      command 'apt -f -y install'
+      only_if { debian? }
+      action :nothing
     end
 
     if new_resource.cleanup_installer
