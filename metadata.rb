@@ -1,4 +1,4 @@
-name 'crowdstrike-falcon'
+name 'falcon'
 maintainer 'CRWD Solutions Architects'
 maintainer_email 'integrations@crowdstrike.com'
 license 'All Rights Reserved'
