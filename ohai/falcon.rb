@@ -71,7 +71,7 @@ Ohai.plugin(:Falcon) do
 
   collect_data(:default) do
     falcon Mash.new
-    falcon[:version] = packages['falcon-sensor']['version'] if packages['falcon-sensor']
+    falcon[:version] = [packages['falcon-sensor']['version'], packages['falcon-sensor']['release']].join('.') if packages['falcon-sensor']
     falcon[:aid] = get_aid
     falcon[:cid] = get_cid
     falcon[:tags] = get_tags

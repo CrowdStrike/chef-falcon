@@ -92,22 +92,18 @@ module ChefFalcon
 
       file_path = File.join(options[:sensor_tmp_dir], installer['name'])
 
-      # CrowdStrike API returns versions like 6.25.1302, but on linux once we install the package version is
-      # 6.25.0-1302 so the below regex is used to make this change.
-      # TODO: Check if macos and windows package version needs the same fix
-      version = version.gsub(/\.(\d+)\.(\d+)/, '.\1.0-\2')
-      version += ".el#{os_version}" if os_name.casecmp('*RHEL*').zero?
-      version += ".amzn#{os_version}" if os_name.casecmp('Amazon Linux').zero?
+      version = version.gsub(/(\d+\.\d+)\.(\d+)/, '\1.0.\2') if platform_name.casecmp('Linux').zero?
+      version += ".el#{os_version}".delete('*') if os_name.casecmp('*RHEL*').zero?
+      version += ".amzn#{os_version}".delete('*')  if os_name.casecmp('Amazon Linux').zero?
 
       {
         'bearer_token' => falcon_api.bearer_token,
         'version' => version,
-        'sha256' => installer['sha256'],
+        'url' => "https://#{options[:falcon_cloud]}/sensors/entities/download-installer/v1?id=#{installer['sha256']}",
         'file_path' => file_path,
         'platform_name' => platform_name,
         'os_name' => os_name,
       }
-
     end
   end
 end

@@ -30,10 +30,6 @@ module ChefFalcon
         if (client_id.nil? || client_secret.nil?) && bearer_token.nil?
           raise ArgumentError, 'client_id and client_secret or bearer_token must be provided'
         end
-        Chef::Log.info("Requesting Falcon API token for client_id: #{client_id}")
-        Chef::Log.info("Requesting Falcon API token for client_secret: #{client_secret}")
-        Chef::Log.info("Requesting Falcon API token for falcon_cloud: #{falcon_cloud}")
-
 
         @falcon_cloud = falcon_cloud
         @http_client = http_client
