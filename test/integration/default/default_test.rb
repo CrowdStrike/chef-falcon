@@ -7,3 +7,10 @@
 describe package('falcon-sensor') do
   it { should be_installed }
 end
+
+# Ensure falcon-sensor is running and enabled
+describe service('falcon-sensor') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should be_running }
+end
