@@ -4,11 +4,11 @@ unified_mode true
 default_action :set
 
 property :cid, String
-property :provisioning_token, String, desired_state: false
 property :proxy_host, String
 property :proxy_port, Integer
 property :proxy_enabled, [true, false]
 property :tags, Array
+property :provisioning_token, String, desired_state: false
 property :tag_membership, %w(minimum inclusive), default: 'minimum', desired_state: false
 
 FALCONCTL_CMD = '/opt/CrowdStrike/falconctl'.freeze
@@ -17,9 +17,9 @@ def define_resource_requirements
   super
 
   requirements.assert(:set, :delete) do |a|
-    a.assertion { ::File.exist?('/opt/CrowdStrike/falconctl') }
-    a.failure_message Chef::Exceptions::FileNotFound, "Could not find '/opt/CrowdStrike/falconctl' on the system."
-    a.whyrun "Assuming '/opt/CrowdStrike/falconctl' exists and falcon is installed."
+    a.assertion { ::File.exist?(FALCONCTL_CMD) }
+    a.failure_message Chef::Exceptions::FileNotFound, "Could not find '#{FALCONCTL_CMD}' on the system."
+    a.whyrun "Assuming '#{FALCONCTL_CMD}' exists and falcon is installed."
   end
 end
 
@@ -31,10 +31,21 @@ load_current_value do |new_resource|
     cid node.dig('falcon', 'cid')
   end
 
-  tags node.dig('falcon', 'tags')
+  current_tags = node.dig('falcon', 'tags')
+
+  if new_resource.tag_membership.casecmp?('minimum') && (new_resource.tags - current_tags).empty?
+    tags new_resource.tags
+  else
+    tags current_tags
+  end
+
   proxy_host node.dig('falcon', 'proxy', 'host')
-  proxy_port node.dig('falcon', 'proxy', 'port').to_i
+  proxy_port node.dig('falcon', 'proxy', 'port').to_i # todo: ensure it will not fail if nil
   proxy_enabled node.dig('falcon', 'proxy', 'enabled')
+end
+
+def delete_option(option)
+  shell_out!("#{FALCONCTL_CMD} -df --#{option}")
 end
 
 action :set do
@@ -49,8 +60,15 @@ action :set do
   end
 
   converge_if_changed :tags do
-    converge_by "Setting tags to #{new_resource.tags}" do
-      cmd = "#{FALCONCTL_CMD} -sf --tags=#{new_resource.tags.join(',')}"
+    converge_by "Setting tags to #{new_resource.tags} with a membership of #{new_resource.tag_membership}" do
+      tags = if new_resource.tag_membership.casecmp?('minimum')
+               current_tags = node.dig('falcon', 'tags')
+               current_tags + (new_resource.tags - current_tags)
+             else
+               new_resource.tags
+             end
+
+      cmd = "#{FALCONCTL_CMD} -sf --tags=#{tags.join(',')}"
       shell_out!(cmd)
     end
   end
@@ -73,6 +91,38 @@ action :set do
     converge_by "Setting proxy_enabled to #{new_resource.proxy_enabled}" do
       cmd = "#{FALCONCTL_CMD} -sf --apd=#{!new_resource.proxy_enabled}"
       shell_out!(cmd)
+    end
+  end
+end
+
+action :delete do
+  if property_is_set?(:cid) && node.dig('falcon', 'cid')
+    converge_by "Deleting CID #{new_resource.cid}" do
+      delete_option('cid')
+    end
+  end
+
+  if property_is_set?(:tags) && node.dig('falcon', 'tags').any?
+    converge_by "Deleting tags #{new_resource.tags}" do
+      delete_option('tags')
+    end
+  end
+
+  if property_is_set?(:proxy_host) && node.dig('falcon', 'proxy', 'host')
+    converge_by "Deleting proxy_host #{new_resource.proxy_host}" do
+      delete_option('aph')
+    end
+  end
+
+  if property_is_set?(:proxy_port) && node.dig('falcon', 'proxy', 'port')
+    converge_by "Deleting proxy_port #{new_resource.proxy_port}" do
+      delete_option('app')
+    end
+  end
+
+  if property_is_set?(:proxy_enabled) && node.dig('falcon', 'proxy', 'enabled')
+    converge_by "Deleting proxy_enabled #{new_resource.proxy_enabled}" do
+      delete_option('apd')
     end
   end
 end
