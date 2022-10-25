@@ -3,13 +3,20 @@ unified_mode true
 
 default_action :set
 
-property :cid, String
-property :proxy_host, String
-property :proxy_port, Integer
-property :proxy_enabled, [true, false]
-property :tags, Array
-property :provisioning_token, String, desired_state: false
-property :tag_membership, %w(minimum inclusive), default: 'minimum', desired_state: false
+property :cid, String,
+          description: 'the Customer CID to register the agent with'
+property :proxy_host, String,
+          description: 'the proxy host to use for the agent'
+property :proxy_port, Integer,
+          description: 'the proxy port to use for the agent'
+property :proxy_enabled, [true, false],
+          description: 'whether or not to enable the proxy for the agent'
+property :tags, Array,
+          description: 'the tags to set on the agent'
+property :provisioning_token, String, desired_state: false,
+          description: 'the provisioning token to use to register the agent'
+property :tag_membership, %w(minimum inclusive), default: 'minimum', desired_state: false,
+          description: 'Whether specified tags should be treated as a complete list `inclusive` or as a list of tags to add to the existing list `minimum`'
 
 FALCONCTL_CMD = '/opt/CrowdStrike/falconctl'.freeze
 
@@ -40,7 +47,7 @@ load_current_value do |new_resource|
   end
 
   proxy_host node.dig('falcon', 'proxy', 'host')
-  proxy_port node.dig('falcon', 'proxy', 'port').to_i # todo: ensure it will not fail if nil
+  proxy_port node.dig('falcon', 'proxy', 'port').to_i # TODO: ensure it will not fail if nil
   proxy_enabled node.dig('falcon', 'proxy', 'enabled')
 end
 

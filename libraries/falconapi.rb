@@ -41,7 +41,6 @@ module ChefFalcon
         @client_id = client_id
         @client_secret = client_secret
         @version = '0.0.1'
-
       end
 
       # Returns the version of the sensor installer for the given policy and platform name.
@@ -54,7 +53,7 @@ module ChefFalcon
         request = Net::HTTP::Get.new(url_path)
         request['Content-Type'] = 'application/json'
         request['Authorization'] = "Bearer #{@bearer_token}"
-        request['User-Agent'] = "crowdstrike-puppet/#{@version}"
+        request['User-Agent'] = "crowdstrike-chef/#{@version}"
 
         resp = @http_client.request(request)
 
@@ -93,7 +92,7 @@ module ChefFalcon
         request = Net::HTTP::Get.new(url_path)
         request['Content-Type'] = 'application/json'
         request['Authorization'] = "Bearer #{@bearer_token}"
-        request['User-Agent'] = "crowdstrike-puppet/#{@version}"
+        request['User-Agent'] = "crowdstrike-chef/#{@version}"
 
         resp = @http_client.request(request)
 
@@ -174,7 +173,7 @@ module ChefFalcon
 
         request = Net::HTTP::Post.new(url_path)
         request['Content-Type'] = 'application/x-www-form-urlencoded'
-        request['User-Agent'] = "crowdstrike-puppet/#{@version}"
+        request['User-Agent'] = "crowdstrike-chef/#{@version}"
         request.body = URI.encode_www_form(req_body)
 
         resp = @http_client.request(request)

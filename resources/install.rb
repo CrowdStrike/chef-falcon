@@ -3,16 +3,26 @@ unified_mode true
 
 default_action :install
 
-property :version, String
-property :version_manage, [true, false], default: false
-property :client_id, String, sensitive: true, desired_state: false
-property :client_secret, String, sensitive: true, desired_state: false
-property :update_policy, String, desired_state: false
-property :version_decrement, Integer, default: 0, desired_state: false
-property :falcon_cloud, String, default: 'api.crowdstrike.com', desired_state: false
-property :cleanup_installer, [true, false], default: true, desired_state: false
-property :install_method, ['api'], default: 'api', desired_state: false
-property :sensor_tmp_dir, String, default: '/tmp', desired_state: false
+property :version, String,
+         description: 'The version of the falcon agent to install'
+property :version_manage, [true, false], default: false,
+         description: 'Rather or not puppet should enforce a specific version and do upgrades/downgrades'
+property :client_id, String, sensitive: true, desired_state: false,
+          description: 'The client id used to authenticate with the falcon api'
+property :client_secret, String, sensitive: true, desired_state: false,
+          description: 'The client secret used to authenticate with the falcon api'
+property :update_policy, String, desired_state: false,
+          description: 'The update policy to use to determine the package version to download and install'
+property :version_decrement, Integer, default: 0, desired_state: false,
+          description: 'The number of versions to decrement the desired version by'
+property :falcon_cloud, String, default: 'api.crowdstrike.com', desired_state: false,
+          description: 'The falcon cloud to use'
+property :cleanup_installer, [true, false], default: true, desired_state: false,
+          description: 'Whether or not to cleanup the installer after installation'
+property :install_method, ['api'], default: 'api', desired_state: false,
+          description: 'The method to use to install the falcon agent'
+property :sensor_tmp_dir, String, default: '/tmp', desired_state: false,
+          description: 'The directory to stage the falcon package in'
 
 action_class do
   include ChefFalcon::Helpers
@@ -43,7 +53,7 @@ action :install do
       remote_file 'falcon' do
         path sensor_info['file_path']
         source sensor_info['url']
-        headers({ 'Authorization' => "Bearer #{sensor_info['bearer_token']}", 'User-Agent' => 'chef-falcon/0.1.0' })
+        headers({ 'Authorization' => "Bearer #{sensor_info['bearer_token']}", 'User-Agent' => 'crowdstrike-chef/0.1.0' })
         action :create
       end
     end
