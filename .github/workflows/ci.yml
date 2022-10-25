@@ -23,7 +23,6 @@ jobs:
           - almalinux-8
           - amazonlinux-2
           - centos-7
-          - centos-stream-8
           - debian-10
           - debian-11
           - fedora-latest
