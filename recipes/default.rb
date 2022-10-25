@@ -15,7 +15,7 @@ end
 
 falcon_config 'falcon' do
   action :set
-  tags ['test', 'test2']
+  tags %w(test test2)
   proxy_host 'proxy.example.com'
   proxy_port 8080
   proxy_enabled true
