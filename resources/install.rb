@@ -35,6 +35,9 @@ def insync?(new_resource, desired_version)
   false
 end
 
+# Get falcon package name
+PACKAGE_NAME = 'falcon-sensor'.freeze
+
 action :install do
   # Create file with contents
 
@@ -79,5 +82,12 @@ action :install do
         action :delete
       end
     end
+  end
+end
+
+action :remove do
+  package 'falcon' do
+    package_name PACKAGE_NAME
+    action :remove
   end
 end
