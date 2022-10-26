@@ -3,20 +3,25 @@
 This cookbook provides resources for installing and configuring the CrowdStrike Falcon sensor.
 
 ## Maintainers
+
 This cookbook maintained by the CrowdStrike Cloud Integration Architects.
 
 <cloud-integrations@crowdstrike.com>
 
 ## Requirements
+
 API clients are granted one or more API scopes. Scopes allow access to specific CrowdStrike APIs and describe the actions that an API client can perform.
 
-Ensure the following API scopes are enabled (***if applicable***) for this role:
-* When `install_method` is set to **api** (default)
-  * **Sensor Download** [read]
-  * **Sensor update policies** [read]
+Ensure the following API scopes are enabled (**_if applicable_**) for this role:
+
+- When `install_method` is set to **api** (default)
+  - **Sensor Download** [read]
+  - **Sensor update policies** [read]
 
 ## Platform Support
-*Supported on:
+
+\*Supported on:
+
 - Alma/Rocky/CentOS Linux
 - Amazon Linux 1|2
 - Debian/Ubuntu
@@ -25,7 +30,7 @@ Ensure the following API scopes are enabled (***if applicable***) for this role:
 - Red Hat CoreOS
 - SUSE Linux Enterprise (SLES)
 
-*Refer to the [Falcon documentation](https://falcon.crowdstrike.com/documentation/20/falcon-sensor-for-linux#operating-systems) for exact versions supported
+\*Refer to the [Falcon documentation](https://falcon.crowdstrike.com/documentation/20/falcon-sensor-for-linux#operating-systems) for exact versions supported
 
 ## Resources
 
@@ -40,8 +45,8 @@ Ensure the following API scopes are enabled (***if applicable***) for this role:
 
 ```ruby
 falcon_install 'falcon' do
-  client_id: LKJSDLFKJSLKDJFKLJ
-  client_secret: SDLKFJLKSJDFLKJSDFLK
+  client_id 'LKJSDLFKJSLKDJFKLJ'
+  client_secret 'SDLKFJLKSJDFLKJSDFLK'
   action :install
 end
 ```
@@ -59,15 +64,16 @@ test/cookbooks/test/
 ## Getting Started
 
 Here's an example of installing/managing the latest Falcon sensor:
+
 ```ruby
 falcon_install 'falcon' do
-  client_id: LKJSDLFKJSLKDJFKLJ
-  client_secret: SDLKFJLKSJDFLKJSDFLK
+  client_id 'LKJSDLFKJSLKDJFKLJ'
+  client_secret 'SDLKFJLKSJDFLKJSDFLK'
   action :install
 end
 
 falcon_config 'falcon' do
-  cid JKLJSDLKFJLKSJDFLKJSDLKFJ-28
+  cid 'JKLJSDLKFJLKSJDFLKJSDLKFJ-28'
   notifies :restart, 'falcon_service[falcon]', :delayed
   action :set
 end
@@ -78,10 +84,11 @@ end
 ```
 
 You might not want to install the latest, and instead be interested in N-1 deployment. The `falcon_install` resource might look like:
+
 ```ruby
 falcon_install 'falcon' do
-  client_id: LKJSDLFKJSLKDJFKLJ
-  client_secret: SDLKFJLKSJDFLKJSDFLK
+  client_id 'LKJSDLFKJSLKDJFKLJ'
+  client_secret 'SDLKFJLKSJDFLKJSDFLK'
   version_decrement: 1 # This number corresponds to N-
   action :install
 end
@@ -92,11 +99,12 @@ end
 ```
 
 You can pass in certain options to configure the Falcon sensor. Here's an example of passing in some tags:
+
 ```ruby
 ... # falcon_install
 
 falcon_config 'falcon' do
-  cid JKLJSDLKFJLKSJDFLKJSDLKFJ-28
+  cid 'JKLJSDLKFJLKSJDFLKJSDLKFJ-28'
   tags %w(tag1 tag2)
   notifies :restart, 'falcon_service[falcon]', :delayed
   action :set
@@ -107,15 +115,14 @@ end
 
 See [full documentation](#resources) for each resource and action for more information.
 
-
 ## Authors
 
 ![Adversary Lineup](https://raw.githubusercontent.com/CrowdStrike/falconpy/main/docs/asset/adversary-lineup-1.png)
 
-| Name | Handle |
-| :--- | :--- |
-| Carlos Matos | @carlosmmatos
-| Frank Falor | @ffalor
+| Name         | Handle        |
+| :----------- | :------------ |
+| Carlos Matos | @carlosmmatos |
+| Frank Falor  | @ffalor       |
 
 ## Support
 
