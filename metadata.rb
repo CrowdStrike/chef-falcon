@@ -1,8 +1,8 @@
 name 'falcon'
-maintainer 'CRWD Solutions Architects'
-maintainer_email 'integrations@crowdstrike.com'
-license 'All Rights Reserved'
-description 'Installs/Configures falcon'
+maintainer 'CRWD Cloud Integration Architects'
+maintainer_email 'cloud-integrations@crowdstrike.com'
+license 'GPL-3.0'
+description 'Installs/Configures Falcon sensor'
 version '0.1.0'
 chef_version '>= 16.0'
 
@@ -17,7 +17,9 @@ issues_url 'https://github.com/CrowdStrike/chef-falcon/issues'
 # a Supermarket.
 #
 source_url 'https://github.com/CrowdStrike/chef-falcon'
-supports 'redhat'
-# %w( aix amazon centos fedora freebsd debian oracle mac_os_x redhat suse opensuseleap ubuntu windowszlinux ).each do |os|
-#   supports os
-# end
+
+# For more up-to-date information about supported platforms, please see the docs
+# at https://falcon.crowdstrike.com/documentation/20/falcon-sensor-for-linux#operating-systems
+%w(almalinux amazon centos debian oracle redhat rockylinux suse ubuntu).each do |os|
+  supports os
+end
