@@ -108,11 +108,21 @@ end
 See [full documentation](#resources) for each resource and action for more information.
 
 
-Authors
------------------
+## Authors
+
 ![Adversary Lineup](https://raw.githubusercontent.com/CrowdStrike/falconpy/main/docs/asset/adversary-lineup-1.png)
 
 | Name | Handle |
 | :--- | :--- |
 | Carlos Matos | @carlosmmatos
 | Frank Falor | @ffalor
+
+## Support
+
+Chef Falcon is an open source project, not a formal CrowdStrike product, to assist developers implement CrowdStrike's Falcon sensor deployment within their organizations. As such it carries no formal support, express or implied.
+
+:fire: Is something going wrong? :fire:
+GitHub Issues are used to report bugs.
+
+Submit a ticket here:
+[https://github.com/CrowdStrike/chef-falcon/issues/new/choose](https://github.com/CrowdStrike/chef-falcon/issues/new/choose)
