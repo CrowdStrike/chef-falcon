@@ -4,25 +4,25 @@ unified_mode true
 default_action :install
 
 property :version, String,
-         description: 'The version of the falcon agent to install'
+         description: 'The version of the Falcon sensor to install'
 property :version_manage, [true, false], default: false,
-         description: 'Rather or not puppet should enforce a specific version and do upgrades/downgrades'
+         description: 'Whether or not Chef should enforce a specific version and do upgrades/downgrades'
 property :client_id, String, sensitive: true, desired_state: false,
-          description: 'The client id used to authenticate with the falcon api'
+          description: 'The client id used to authenticate with the Falcon API'
 property :client_secret, String, sensitive: true, desired_state: false,
-          description: 'The client secret used to authenticate with the falcon api'
+          description: 'The client secret used to authenticate with the Falcon API'
 property :update_policy, String, desired_state: false,
           description: 'The update policy to use to determine the package version to download and install'
 property :version_decrement, Integer, default: 0, desired_state: false,
           description: 'The number of versions to decrement the desired version by'
 property :falcon_cloud, String, default: 'api.crowdstrike.com', desired_state: false,
-          description: 'The falcon cloud to use'
+          description: 'The Falcon API cloud to use'
 property :cleanup_installer, [true, false], default: true, desired_state: false,
           description: 'Whether or not to cleanup the installer after installation'
 property :install_method, ['api'], default: 'api', desired_state: false,
-          description: 'The method to use to install the falcon agent'
+          description: 'The method to use to install the Falcon sensor'
 property :sensor_tmp_dir, String, default: '/tmp', desired_state: false,
-          description: 'The directory to stage the falcon package in'
+          description: 'The directory to stage the Falcon package in'
 
 action_class do
   include ChefFalcon::Helpers
