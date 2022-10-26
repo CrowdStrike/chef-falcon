@@ -1,8 +1,8 @@
-name 'chef-falcon'
+name 'falcon'
 maintainer 'CRWD Solutions Architects'
 maintainer_email 'integrations@crowdstrike.com'
 license 'All Rights Reserved'
-description 'Installs/Configures chef-falcon'
+description 'Installs/Configures falcon'
 version '0.1.0'
 chef_version '>= 16.0'
 
@@ -17,3 +17,7 @@ issues_url 'https://github.com/CrowdStrike/chef-falcon/issues'
 # a Supermarket.
 #
 source_url 'https://github.com/CrowdStrike/chef-falcon'
+supports 'redhat'
+# %w( aix amazon centos fedora freebsd debian oracle mac_os_x redhat suse opensuseleap ubuntu windowszlinux ).each do |os|
+#   supports os
+# end

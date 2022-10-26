@@ -13,5 +13,9 @@
 				"chef-software.chef"
 			]
 		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:1": {},
+		"ghcr.io/devcontainers/features/python:1": {}
 	}
 }
