@@ -28,7 +28,7 @@ The Default action is `:set`
 
 ```ruby
 falcon_config 'falcon' do
-  cid JKLJSDLKFJLKSJDFLKJSDLKFJ-28
+  cid 'JKLJSDLKFJLKSJDFLKJSDLKFJ-28'
   notifies :restart, 'falcon_service[falcon]', :delayed
   action :set
 end
@@ -36,7 +36,7 @@ end
 
 ```ruby
 falcon_config 'falcon' do
-  cid JKLJSDLKFJLKSJDFLKJSDLKFJ-28
+  cid 'JKLJSDLKFJLKSJDFLKJSDLKFJ-28'
   tags %w(tag1 tag2 tag3)
   proxy_host 'http://example.com'
   proxy_port 8080
