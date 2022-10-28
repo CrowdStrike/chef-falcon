@@ -57,13 +57,11 @@ end
 
 action :set do
   converge_if_changed :cid do
-    converge_by "Setting CID to #{new_resource.cid}" do
-      cmd = "#{FALCONCTL_CMD} -sf --cid=#{new_resource.cid}"
-      if property_is_set?(:provisioning_token)
-        cmd += " --provisioning-token=#{new_resource.provisioning_token}"
-      end
-      shell_out!(cmd)
+    cmd = "#{FALCONCTL_CMD} -sf --cid=#{new_resource.cid}"
+    if property_is_set?(:provisioning_token)
+      cmd += " --provisioning-token=#{new_resource.provisioning_token}"
     end
+    shell_out!(cmd)
   end
 
   converge_if_changed :tags do
