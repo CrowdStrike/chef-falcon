@@ -40,7 +40,7 @@ module ChefFalcon
                         end
         @client_id = client_id
         @client_secret = client_secret
-        @version = '0.0.1'
+        @version = '0.1.0'
       end
 
       # Returns the version of the sensor installer for the given policy and platform name.
@@ -75,8 +75,7 @@ module ChefFalcon
           @version = body['resources'][0]['settings']['sensor_version']
           version
         else
-          # raise Puppet::Error, sanitize_error_message("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}")
-          Chef::Log.error("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}")
+          Chef::Log.error(sanitize_error_message("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}"))
           raise
         end
       end
@@ -107,8 +106,7 @@ module ChefFalcon
 
           body['resources']
         else
-          # raise Puppet::Error, sanitize_error_message("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}"))
-          Chef::Log.error("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}")
+          Chef::Log.error(sanitize_error_message("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}"))
           raise
         end
       end
@@ -130,8 +128,7 @@ module ChefFalcon
         when Net::HTTPSuccess, Net::HTTPRedirection
           File.binwrite(out_path, resp.body)
         else
-          # raise Puppet::Error, sanitize_error_message("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}")
-          Chef::Log.error("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}")
+          Chef::Log.error(sanitize_error_message("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}"))
           raise
         end
       end
@@ -139,16 +136,12 @@ module ChefFalcon
       # Private class methods
       private
 
-      # Ensure error message does not include client_id, client_secret, or bearer_token.
-      # def sanitize_error_message(message)
-      #   [@client_id, @client_secret, @bearer_token].each do |value|
-      #     if value.is_a?(Puppet::Pops::Types::PSensitiveType::Sensitive)
-      #       value = value.unwrap
-      #     end
-      #     message.gsub!(value, '<REDACTED>') if !value.nil? && !value.empty?
-      #   end
-      #   message
-      # end
+      def sanitize_error_message(message)
+        [@client_id, @client_secret, @bearer_token].each do |value|
+          message.gsub!(value, '<REDACTED>') if !value.nil? && !value.empty?
+        end
+        message
+      end
 
       # Returns a new Net::HTTP instance.
       def http_client
@@ -182,12 +175,10 @@ module ChefFalcon
         when Net::HTTPSuccess
           JSON.parse(resp.read_body)['access_token']
         when Net::HTTPRedirection
-          # raise Puppet::Error, sanitize_error_message("Error - incorrect value for falcon_cloud: #{@falcon_cloud}. Update the falcon_cloud property with the correct cloud: #{resp.header['Location'].split('/')[2]}")
-          Chef::Log.error("Error - incorrect value for falcon_cloud: #{@falcon_cloud}. Update the falcon_cloud property with the correct cloud: #{resp.header['Location'].split('/')[2]}")
+          Chef::Log.error(sanitize_error_message("Error - incorrect value for falcon_cloud: #{@falcon_cloud}. Update the falcon_cloud property with the correct cloud: #{resp.header['Location'].split('/')[2]}"))
           raise
         else
-          # raise Puppet::Error, sanitize_error_message("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}")
-          Chef::Log.error("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}")
+          Chef::Log.error(sanitize_error_message("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}"))
           raise
         end
       end

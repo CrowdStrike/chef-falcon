@@ -4,8 +4,8 @@ unified_mode true
 default_action :install
 
 property :version, String,
-         description: 'The version of the Falcon sensor to install'
-property :version_manage, [true, false], default: false,
+         description: 'The version of the Falcon sensor to install', desired_state: false
+property :version_manage, [true, false], default: false, desired_state: false,
          description: 'Whether or not Chef should enforce a specific version and do upgrades/downgrades'
 property :client_id, String, sensitive: true, desired_state: false,
           description: 'The client id used to authenticate with the Falcon API'
@@ -49,6 +49,8 @@ action :install do
     sensor_info = sensor_download_info(new_resource.client_id, new_resource.client_secret, {
       version_decrement: new_resource.version_decrement,
       sensor_tmp_dir: new_resource.sensor_tmp_dir,
+      update_policy: new_resource.update_policy,
+      version: new_resource.version,
       falcon_cloud: new_resource.falcon_cloud,
       })
 
