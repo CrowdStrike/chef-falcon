@@ -1,4 +1,5 @@
 # Falcon Cookbook
+[![Cookbook Version](https://img.shields.io/cookbook/v/falcon)](https://supermarket.chef.io/cookbooks/falcon)
 
 This cookbook provides resources for installing and configuring the CrowdStrike Falcon sensor.
 
