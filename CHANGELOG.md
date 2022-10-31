@@ -6,5 +6,4 @@ This file is used to list changes made in each version of the chef-falcon cookbo
 
 Initial release.
 
-- change 0
-- change 1
+- Linux support with API installation method
