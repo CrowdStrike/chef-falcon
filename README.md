@@ -35,9 +35,9 @@ Ensure the following API scopes are enabled (**_if applicable_**) for this role:
 
 ## Resources
 
-- [falcon_install](./documentation/falcon_install.md)
-- [falcon_config](./documentation/falcon_config.md)
-- [falcon_service](./documentation/falcon_service.md)
+- [falcon_install](https://github.com/CrowdStrike/chef-falcon/blob/main/documentation/falcon_install.md)
+- [falcon_config](https://github.com/CrowdStrike/chef-falcon/blob/main/documentation/falcon_config.md)
+- [falcon_service](https://github.com/CrowdStrike/chef-falcon/blob/main/documentation/falcon_service.md)
 
 ## Usage
 
@@ -129,7 +129,7 @@ See [full documentation](#resources) for each resource and action for more infor
 
 Chef Falcon is an open source project, not a formal CrowdStrike product, to assist developers implement CrowdStrike's Falcon sensor deployment within their organizations. As such it carries no formal support, express or implied.
 
-:fire: Is something going wrong? :fire:
+Is something going wrong?
 GitHub Issues are used to report bugs.
 
 Submit a ticket here:
