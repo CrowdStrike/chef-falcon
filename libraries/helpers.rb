@@ -87,12 +87,11 @@ module ChefFalcon
         end
 
         installer = installers[version_decrement]
-        version = installer['version']
       end
 
       file_path = File.join(options[:sensor_tmp_dir], installer['name'])
 
-      version = version.gsub(/(\d+\.\d+)\.(\d+)/, '\1.0.\2') if platform_name.casecmp('Linux').zero?
+      version = installer['version'].gsub(/(\d+\.\d+)\.(\d+)/, '\1.0-\2') if platform_name.casecmp('Linux').zero?
       version += ".el#{os_version}".delete('*') if os_name.casecmp('*RHEL*').zero?
       version += ".amzn#{os_version}".delete('*')  if os_name.casecmp('Amazon Linux').zero?
 
