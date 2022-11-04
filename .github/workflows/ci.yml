@@ -28,7 +28,7 @@ jobs:
           - debian-10
           - debian-11
           - opensuse-leap-15
-          - rockylinux-8
+          - rockylinux-9
           - ubuntu-1804
           - ubuntu-2004
         suite:
