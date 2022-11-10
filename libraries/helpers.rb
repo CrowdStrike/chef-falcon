@@ -55,6 +55,10 @@ module ChefFalcon
 
       # Return *RHEL* for RHEL Family
       return '*RHEL*' if rhel?
+
+      # Return *SUSE* for SUSE Family
+      return '*SLES*' if suse?
+
       node['platform'].capitalize
     end
 
