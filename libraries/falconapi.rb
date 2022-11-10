@@ -40,7 +40,7 @@ module ChefFalcon
                         end
         @client_id = client_id
         @client_secret = client_secret
-        @version = '0.1.0'
+        @version = '0.1.1'
       end
 
       # Returns the version of the sensor installer for the given policy and platform name.

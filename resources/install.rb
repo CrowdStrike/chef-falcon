@@ -58,7 +58,7 @@ action :install do
       remote_file 'falcon' do
         path sensor_info['file_path']
         source sensor_info['url']
-        headers({ 'Authorization' => "Bearer #{sensor_info['bearer_token']}", 'User-Agent' => 'crowdstrike-chef/0.1.0' })
+        headers({ 'Authorization' => "Bearer #{sensor_info['bearer_token']}", 'User-Agent' => 'crowdstrike-chef/0.1.1' })
         action :create
       end
     end
