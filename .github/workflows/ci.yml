@@ -48,6 +48,11 @@ jobs:
         suite:
           - default
           - install-api-version
+          - install-api-policy
+          - install-api-decrement
+          - install-cleanup-installer
+          - config-set
+          - config-delete
       fail-fast: false
 
     steps:
