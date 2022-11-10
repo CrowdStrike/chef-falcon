@@ -19,19 +19,23 @@ export FALCON_CID=<Your Falcon CID>
 ```
 
 ### Using Dokken
+
 > Refer to the [kitchen.yml](kitchen.yml) for more details
 
 Run the following command to do a full test of all platforms:
+
 ```bash
 kitchen test # optionally pass -c for parallel runs
 ```
 
 To run only against Ubuntu and CentOS:
+
 ```bash
 kitchen test ubuntu|centos
 ```
 
 ### Using Vagrant (coming soon)
+
 > Refer to the [kitchen.vagrant.yml](kitchen.vagrant.yml) for more details.
 
 :exclamation: Until we figure out a clean way to pass ENV variables, this will be

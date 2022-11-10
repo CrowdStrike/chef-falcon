@@ -1,0 +1,8 @@
+name: config-delete
+title: Delete Configurations
+summary: Verify Falcon is configured with specific configurations
+supports:
+  - platform-family: linux
+depends:
+  - name: common
+    path: test/integration/common

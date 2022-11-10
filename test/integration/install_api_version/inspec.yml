@@ -1,0 +1,8 @@
+name: install-api-version
+title: Install API Version
+summary: Verify Falcon is installed, running, and configured with specific version
+supports:
+  - platform-family: linux
+depends:
+  - name: common
+    path: test/integration/common

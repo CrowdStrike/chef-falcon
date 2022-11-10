@@ -31,9 +31,10 @@ def define_resource_requirements
 end
 
 load_current_value do |new_resource|
-  desired_cid = new_resource.cid.split('-')[0]
-  if desired_cid.casecmp?(node.dig('falcon', 'cid'))
-    cid new_resource.cid
+  if !new_resource.cid.nil?
+    if new_resource.cid.split('-')[0].casecmp?(node.dig('falcon', 'cid'))
+      cid new_resource.cid
+    end
   else
     cid node.dig('falcon', 'cid')
   end
@@ -102,7 +103,7 @@ end
 
 action :delete do
   if property_is_set?(:cid) && node.dig('falcon', 'cid')
-    converge_by "Deleting CID #{new_resource.cid}" do
+    converge_by 'Deleting CID' do
       delete_option('cid')
     end
   end

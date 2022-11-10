@@ -20,7 +20,6 @@ The Default action is `:start`
 | :--- | :--- | :------ | :---------- |
 | service_name | String | `falcon-sensor` | The name of the falcon service
 
-
 ## Example
 
 ```ruby

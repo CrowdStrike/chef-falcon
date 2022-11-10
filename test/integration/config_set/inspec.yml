@@ -1,0 +1,8 @@
+name: config-set
+title: Set Configurations
+summary: Verify Falcon is configured with specific configurations
+supports:
+  - platform-family: linux
+depends:
+  - name: common
+    path: test/integration/common

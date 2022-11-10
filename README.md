@@ -1,4 +1,5 @@
 # Falcon Cookbook
+
 [![Cookbook Version](https://img.shields.io/cookbook/v/falcon)](https://supermarket.chef.io/cookbooks/falcon)
 
 This cookbook provides resources for installing and configuring the CrowdStrike Falcon sensor.
@@ -16,8 +17,8 @@ API clients are granted one or more API scopes. Scopes allow access to specific 
 Ensure the following API scopes are enabled (**_if applicable_**) for this role:
 
 - When `install_method` is set to **api** (default)
-  - **Sensor Download** [read]
-  - **Sensor update policies** [read]
+   - **Sensor Download** [read]
+   - **Sensor update policies** [read]
 
 ## Platform Support
 

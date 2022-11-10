@@ -1,0 +1,8 @@
+name: install-cleanup-installer
+title: Install - Installer Should not Clean Up
+summary: Verify the installer does not clean up after itself
+supports:
+  - platform-family: linux
+depends:
+  - name: common
+    path: test/integration/common

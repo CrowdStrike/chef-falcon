@@ -1,31 +1,40 @@
 ---
 driver:
   name: vagrant
-
-## The forwarded_port port feature lets you connect to ports on the VM guest
-## via localhost on the host.
-## see also: https://www.vagrantup.com/docs/networking/forwarded_ports
-
-#  network:
-#    - ["forwarded_port", {guest: 80, host: 8080}]
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+  chef_license: accept-no-persist
+  provision: true
+  provider: parallels
 
 provisioner:
   name: chef_zero
 
-  ## product_name and product_version specifies a specific Chef product and version to install.
-  ## see the Chef documentation for more details: https://docs.chef.io/workstation/config_yml_kitchen/
-  #  product_name: chef
-  #  product_version: 17
-
 verifier:
   name: inspec
 
+# NOTE: Right now, only RHEL based distros support ENV variables being passed
+# in by the lifecycle hooks. Also, RHEL 9 based distros have an issue with the
+# test kitchen SSH connection. So, we are skipping RHEL 9 for now.
 platforms:
-  - name: ubuntu-20.04
-  - name: centos-8
+  - name: almalinux-8
+  - name: centos-7
+
 
 suites:
   - name: default
+    run_list:
+      - recipe[test::default]
     verifier:
       inspec_tests:
         - test/integration/default
+
+lifecycle:
+  post_create:
+    - remote: |
+        sudo tee "/etc/profile.d/vars.sh" > "/dev/null" <<EOF
+        export FALCON_CLIENT_ID=<%= ENV['FALCON_CLIENT_ID'] %>
+        export FALCON_CLIENT_SECRET=<%= ENV['FALCON_CLIENT_SECRET'] %>
+        export FALCON_CLOUD=<%= ENV['FALCON_CLOUD'] %>
+        export FALCON_CID=<%= ENV['FALCON_CID'] %>
+        export FALCON_VERSION=<%= ENV['FALCON_VERSION'] || '6.44.14108' %>
+        EOF

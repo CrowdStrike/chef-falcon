@@ -25,7 +25,6 @@ The Default action is `:install`
 | install_method | ['api'] | `api` | The method to use to install the Falcon sensor
 | sensor_tmp_dir | String | `/tmp` | The directory to stage the Falcon package in
 
-
 ## Example
 
 ```ruby

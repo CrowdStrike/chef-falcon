@@ -1,10 +1,19 @@
 ---
-name: ci
-
-"on":
+name: "Integration Tests"
+on:
   push:
-    branches:
-      - nonna
+    paths:
+      - 'libraries/**'
+      - 'resources/**'
+      - 'test/**'
+      - 'ohai/**'
+  pull_request_target:
+    types: [labeled]
+    paths:
+      - 'libraries/**'
+      - 'resources/**'
+      - 'test/**'
+      - 'ohai/**'
 
 jobs:
   lint-unit:
@@ -17,7 +26,12 @@ jobs:
       issues: write
 
   integration:
-    #needs: lint-unit
+    needs: lint-unit
+    if: |
+      github.event_name == 'push' ||
+      github.event_name == 'schedule' ||
+      (github.event_name == 'pull_request_target' &&
+      github.event.label.name == 'ok-to-test')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,21 +41,36 @@ jobs:
           - centos-7
           - debian-10
           - debian-11
-          - opensuse-leap-15
-          - rockylinux-8
+          # - opensuse-leap-15
+          - rockylinux-9
           - ubuntu-1804
           - ubuntu-2004
         suite:
           - default
+          - install-api-version
+          - install-api-policy
+          - install-api-decrement
+          - install-cleanup-installer
+          - config-set
+          - config-delete
       fail-fast: false
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        if: github.event_name != 'pull_request_target'
+
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{github.event.pull_request.head.sha}}
+        if: github.event_name == 'pull_request_target'
+
       - name: Install Chef
         uses: actionshub/chef-install@main
-      - name: Dokken
-        uses: actionshub/test-kitchen@main
+
+      - name: Run role tests
+        uses: nick-fields/retry@v2
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.yml
@@ -49,9 +78,14 @@ jobs:
           FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
           FALCON_CID: ${{ secrets.FALCON_CID }}
           FALCON_CLOUD: ${{ secrets.FALCON_CLOUD }}
+          FALCON_VERSION: '6.44.14108'
         with:
-          suite: ${{ matrix.suite }}
-          os: ${{ matrix.os }}
+          timeout_minutes: 6
+          max_attempts: 3
+          retry_on: error
+          command: >-
+            chef exec kitchen test ${{ matrix.suite }}-${{ matrix.os }}
+
       - name: Print debug output on failure
         if: failure()
         run: |
