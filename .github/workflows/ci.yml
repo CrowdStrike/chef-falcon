@@ -79,7 +79,7 @@ jobs:
           max_attempts: 3
           retry_on: error
           command: >-
-            /opt/chef/bin/chef exec kitchen test ${{ matrix.suite }}-${{ matrix.os }}
+            chef exec kitchen test ${{ matrix.suite }}-${{ matrix.os }}
 
       - name: Print debug output on failure
         if: failure()
