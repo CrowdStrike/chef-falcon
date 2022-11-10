@@ -1,0 +1,8 @@
+name: install-api-policy
+title: Install API w/ Sensor Update Policy
+summary: Verify Falcon is installed, running, and configured with version of policy
+supports:
+  - platform-family: linux
+depends:
+  - name: common
+    path: test/integration/common

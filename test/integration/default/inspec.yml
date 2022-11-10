@@ -1,0 +1,8 @@
+name: default
+title: Default Tests
+summary: Verify Falcon is installed, running, and configured via API method
+supports:
+  - platform-family: linux
+depends:
+  - name: common
+    path: test/integration/common

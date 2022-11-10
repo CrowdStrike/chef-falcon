@@ -3,15 +3,16 @@ driver:
   name: dokken
   privileged: true  # allows systemd services to start
   chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
-  chef_license: accept-no-persist
   env:
     - FALCON_CLIENT_ID=<%= ENV['FALCON_CLIENT_ID'] %>
     - FALCON_CLIENT_SECRET=<%= ENV['FALCON_CLIENT_SECRET'] %>
     - FALCON_CLOUD=<%= ENV['FALCON_CLOUD'] %>
     - FALCON_CID=<%= ENV['FALCON_CID'] %>
+    - FALCON_VERSION=<%= ENV['FALCON_VERSION'] || '6.44.14108' %>
 
 provisioner:
   name: dokken
+  chef_license: accept-no-persist
   deprecations_as_errors: true
   multiple_converge: 2
   enforce_idempotency: true
@@ -63,15 +64,33 @@ platforms:
       image: dokken/opensuse-leap-15
       pid_one_command: /usr/lib/systemd/systemd
 
-  - name: rockylinux-8
+  - name: rockylinux-9
     driver:
-      image: dokken/rockylinux-8
+      image: dokken/rockylinux-9
       pid_one_command: /usr/lib/systemd/systemd
 
 suites:
   - name: default
     run_list:
       - recipe[test::default]
-    verifier:
-      inspec_tests:
-        - test/integration/default
+  - name: install_api_version
+    run_list:
+      - recipe[test::install_api_version]
+  - name: install_api_policy
+    run_list:
+      - recipe[test::install_api_policy]
+  - name: install_api_decrement
+    run_list:
+      - recipe[test::install_api_decrement]
+  - name: install_cleanup_installer
+    run_list:
+      - recipe[test::install_cleanup_installer]
+  - name: config_set
+    run_list:
+      - recipe[test::config_set]
+  - name: config_delete
+    run_list:
+      - recipe[test::config_set]
+      - recipe[test::config_delete]
+    provisioner:
+      enforce_idempotency: false
