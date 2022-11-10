@@ -10,7 +10,6 @@ The Default action is `:set`
 | **`:set`** | Set options for the Falcon sensor |
 | `:delete` | Delete options for the Falcon sensor |
 
-
 ## Properties
 
 | Name | Type | Default | Description |
@@ -22,7 +21,6 @@ The Default action is `:set`
 | tags | Array | `[]` | The tags to set on the agent
 | provisioning_token | String |  | The provisioning token to use to register the agent
 | tag_membership | ["minimum", "inclusive"] | `minimum` | Whether specified tags should be treated as a complete list `inclusive` or as a list of tags to add to the existing list `minimum`
-
 
 ## Example
 

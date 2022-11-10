@@ -1,5 +1,5 @@
 name: common
 title: Common Tests
-summary: Verify the Falcon sensor is installed and 
+summary: Verify the Falcon sensor is installed, running, and configured
 supports:
   - platform-family: linux

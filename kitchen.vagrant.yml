@@ -30,11 +30,11 @@ suites:
 
 lifecycle:
   post_create:
-  - remote: |
-      sudo tee "/etc/profile.d/vars.sh" > "/dev/null" <<EOF
-      export FALCON_CLIENT_ID=<%= ENV['FALCON_CLIENT_ID'] %>
-      export FALCON_CLIENT_SECRET=<%= ENV['FALCON_CLIENT_SECRET'] %>
-      export FALCON_CLOUD=<%= ENV['FALCON_CLOUD'] %>
-      export FALCON_CID=<%= ENV['FALCON_CID'] %>
-      export FALCON_VERSION=<%= ENV['FALCON_VERSION'] || '6.44.14108' %>
-      EOF
+    - remote: |
+        sudo tee "/etc/profile.d/vars.sh" > "/dev/null" <<EOF
+        export FALCON_CLIENT_ID=<%= ENV['FALCON_CLIENT_ID'] %>
+        export FALCON_CLIENT_SECRET=<%= ENV['FALCON_CLIENT_SECRET'] %>
+        export FALCON_CLOUD=<%= ENV['FALCON_CLOUD'] %>
+        export FALCON_CID=<%= ENV['FALCON_CID'] %>
+        export FALCON_VERSION=<%= ENV['FALCON_VERSION'] || '6.44.14108' %>
+        EOF

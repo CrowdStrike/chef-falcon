@@ -8,7 +8,7 @@ on:
       - 'test/**'
       - 'ohai/**'
   pull_request_target:
-    types: [ labeled ]
+    types: [labeled]
     paths:
       - 'libraries/**'
       - 'resources/**'
