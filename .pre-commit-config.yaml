@@ -1,0 +1,23 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/mattlqx/pre-commit-ruby
+    rev: v1.3.5
+    hooks:
+      - id: rspec
+      # - id: chef-cookbook-version
+
+  - repo: https://github.com/belminf/pre-commit-chef
+    rev: v0.1.1
+    hooks:
+      - id: cookstyle
+
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
+    hooks:
+      - id: markdownlint
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.28.0
+    hooks:
+      - id: yamllint
