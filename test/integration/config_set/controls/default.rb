@@ -2,7 +2,7 @@
 include_controls 'common'
 
 describe command('/opt/CrowdStrike/falconctl -g --aph') do
-  its('stdout') { should match 'aph=http://proxy.example.com' }
+  its('stdout') { should match 'aph=proxy.example.com' }
 end
 
 describe command('/opt/CrowdStrike/falconctl -g --app') do
