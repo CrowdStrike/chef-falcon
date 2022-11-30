@@ -22,7 +22,8 @@ The Default action is `:install`
 | version_decrement | Integer | `0` | The number of versions to decrement the desired version by
 | falcon_cloud | String | `api.crowdstrike.com` | The Falcon API cloud to use
 | cleanup_installer | [true, false] | `true` | Whether or not to cleanup the installer after installation
-| install_method | ['api'] | `api` | The method to use to install the Falcon sensor
+| install_method | ['api', 'local'] | `api` | The method to use to install the Falcon sensor
+| package_source | String |  | The path to the package in the local file system
 | sensor_tmp_dir | String | `/tmp` | The directory to stage the Falcon package in
 
 ## Example
@@ -41,6 +42,14 @@ falcon_install 'falcon' do
   client_secret 'SDLKFJLKSJDFLKJSDFLK'
   falcon_cloud 'api.us-2.crowdstrike.com'
   update_policy 'ACME Policy'
+  action :install
+end
+```
+
+```ruby
+falcon_install 'falcon' do
+  install_method 'local'
+  package_source '/tmp/falcon-sensor.rpm'
   action :install
 end
 ```

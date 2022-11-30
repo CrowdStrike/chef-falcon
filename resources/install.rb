@@ -22,7 +22,7 @@ property :cleanup_installer, [true, false], default: true, desired_state: false,
 property :install_method, String, equal_to: %w(api local), default: 'api', desired_state: false,
           description: 'The method to use to install the Falcon sensor'
 property :package_source, String, desired_state: false,
-          description: 'The path to the local package to install'
+          description: 'The path to the package in the local file system'
 property :sensor_tmp_dir, String, default: '/tmp', desired_state: false,
           description: 'The directory to stage the Falcon package in'
 
