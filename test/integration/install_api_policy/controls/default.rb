@@ -1,4 +1,4 @@
-falcon_version = '6.47.0-14408' # This is from Sensor Update Policy
+falcon_version = '6.48.0-14504' # This is from Sensor Update Policy
 
 # Include common controls
 include_controls 'common'
