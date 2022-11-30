@@ -94,3 +94,6 @@ suites:
       - recipe[test::config_delete]
     provisioner:
       enforce_idempotency: false
+  - name: install_local
+    run_list:
+      - recipe[test::install_local]
