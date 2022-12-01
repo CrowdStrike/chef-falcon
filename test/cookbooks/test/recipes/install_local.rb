@@ -8,7 +8,8 @@ end
 # if os family is RHEL, set rpm extension
 # if os family is debian, set deb extension
 case node['platform_family']
-when 'rhel'
+  # When RHEL or Amazon linux
+when 'rhel', 'amazon'
   extension = 'rpm'
 when 'debian'
   extension = 'deb'
