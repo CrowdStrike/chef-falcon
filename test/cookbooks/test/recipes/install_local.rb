@@ -5,10 +5,20 @@ execute 'download' do
   not_if { ::File.directory?('/opt/CrowdStrike') }
 end
 
+# if os family is RHEL, set rpm extension
+# if os family is debian, set deb extension
+case node['platform_family']
+  # When RHEL or Amazon linux
+when 'rhel', 'amazon'
+  extension = 'rpm'
+when 'debian'
+  extension = 'deb'
+end
+
 falcon_install 'falcon' do
   install_method 'local'
   # Use shell_out to get the path to the falcon package
-  package_source shell_out('find /tmp | grep falcon-sensor').stdout.strip
+  package_source '/tmp/falcon-sensor.' + extension
   action :install
 end
 
