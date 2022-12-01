@@ -1,0 +1,8 @@
+name: install-local
+title: Install using local file
+summary: Verify the local falcon-sensor is installed
+supports:
+  - platform-family: linux
+depends:
+  - name: common
+    path: test/integration/common

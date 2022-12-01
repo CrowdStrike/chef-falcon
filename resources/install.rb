@@ -19,8 +19,10 @@ property :falcon_cloud, String, default: 'api.crowdstrike.com', desired_state: f
           description: 'The Falcon API cloud to use'
 property :cleanup_installer, [true, false], default: true, desired_state: false,
           description: 'Whether or not to cleanup the installer after installation'
-property :install_method, ['api'], default: 'api', desired_state: false,
+property :install_method, String, equal_to: %w(api local), default: 'api', desired_state: false,
           description: 'The method to use to install the Falcon sensor'
+property :package_source, String, desired_state: false,
+          description: 'The path to the package in the local file system'
 property :sensor_tmp_dir, String, default: '/tmp', desired_state: false,
           description: 'The directory to stage the Falcon package in'
 
@@ -39,8 +41,7 @@ end
 PACKAGE_NAME = 'falcon-sensor'.freeze
 
 action :install do
-  # Create file with contents
-
+  # Download the falcon package from API
   if new_resource.install_method == 'api'
     if new_resource.client_id.nil? || new_resource.client_secret.nil?
       raise ArgumentError, 'client_id and client_secret are required when using the api install method'
@@ -62,27 +63,38 @@ action :install do
         action :create
       end
     end
-
-    package 'falcon' do
-      source sensor_info['file_path']
-      only_if { ::File.exist?(sensor_info['file_path']) }
-      provider Chef::Provider::Package::Dpkg if debian?
-      options '--force-all' if debian?
-      action :install
-      notifies :run, 'execute[falcon]', :immediately if debian?
+  else
+    # install_method == 'local'
+    if new_resource.package_source.nil?
+      raise ArgumentError, 'package_source is required when using the local install method'
     end
 
-    # Only run on debian based systems after package install
-    execute 'falcon' do
-      command 'apt -f -y install'
-      only_if { debian? }
-      action :nothing
-    end
+    sensor_info = {
+      'file_path' => new_resource.package_source,
+    }
+  end
 
-    if new_resource.cleanup_installer
-      file sensor_info['file_path'] do
-        action :delete
-      end
+  package 'falcon' do
+    source sensor_info['file_path']
+    only_if { ::File.exist?(sensor_info['file_path']) }
+    provider Chef::Provider::Package::Dpkg if debian?
+    options '--force-all' if debian?
+    action :install
+    notifies :run, 'execute[falcon]', :immediately if debian?
+  end
+
+  # Only run on debian based systems after package install
+  execute 'falcon' do
+    command 'apt -f -y install'
+    only_if { debian? }
+    action :nothing
+  end
+
+  # if new_resource.cleanup_installer
+  if new_resource.install_method == 'api'
+    file sensor_info['file_path'] do
+      action :delete
+      only_if { new_resource.cleanup_installer }
     end
   end
 end
