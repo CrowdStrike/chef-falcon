@@ -8,11 +8,18 @@ module ChefFalcon
       unless os_version.nil?
         query += "+os_version:'#{os_version}'"
       end
-      query += if node['cpu']['architecture'].casecmp('arm64').zero?
+      query += case node['kernel']['machine']
+               when 'x86_64'
+                 "+os_version:!~'arm64'+os_version:!~'zLinux'"
+               when 'aarch64'
                  "+os_version:~'arm64'"
+               when 's390x'
+                 "+os_version:~'zLinux'"
                else
-                 "+os_version:!~'arm64'"
+                 Chef::Log.error("Unsupported architecture: #{node['kernel']['machine']}")
+                 raise
                end
+
       unless version.nil?
         query += "+version:'#{version}'"
       end
@@ -73,13 +80,13 @@ module ChefFalcon
       if options.key?(:version) && !options[:version].nil?
         query = build_sensor_installer_query(platform_name: platform_name, version: options[:version], os_name: os_name, os_version: os_version)
         installer = falcon_api.falcon_installers(query)[0]
-      # If update_policy is provided, use it to get the sensor package info
+        # If update_policy is provided, use it to get the sensor package info
       elsif options.key?(:update_policy) && !options[:update_policy].nil?
         falcon_api.update_policy = options[:update_policy]
         version = falcon_api.version_from_update_policy
         query = build_sensor_installer_query(platform_name: platform_name, version: version, os_name: os_name, os_version: os_version)
         installer = falcon_api.falcon_installers(query)[0]
-      # If neither are provided, use the `version_decrement` to pull the n-x version for the platform and os`
+        # If neither are provided, use the `version_decrement` to pull the n-x version for the platform and os`
       else
         query = build_sensor_installer_query(platform_name: platform_name, os_name: os_name, os_version: os_version)
         version_decrement = options[:version_decrement]
@@ -97,7 +104,7 @@ module ChefFalcon
 
       version = installer['version'].gsub(/(\d+\.\d+)\.(\d+)/, '\1.0-\2') if platform_name.casecmp('Linux').zero?
       version += ".el#{os_version}".delete('*') if os_name.casecmp('*RHEL*').zero?
-      version += ".amzn#{os_version}".delete('*')  if os_name.casecmp('Amazon Linux').zero?
+      version += ".amzn#{os_version}".delete('*') if os_name.casecmp('Amazon Linux').zero?
 
       {
         'bearer_token' => falcon_api.bearer_token,
