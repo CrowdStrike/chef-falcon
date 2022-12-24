@@ -15,7 +15,7 @@ property :tags, Array, default: [],
           description: 'The tags to set on the agent'
 property :provisioning_token, String, desired_state: false,
           description: 'The provisioning token to use to register the agent'
-property :backend, String, equal_to: %w(auto bpf kernel), desired_state: false,
+property :backend, String, equal_to: %w(auto bpf kernel),
           description: 'The type of backend to use for the sensor [auto, bpf, kernel]'
 property :tag_membership, %w(minimum inclusive), default: 'minimum', desired_state: false,
           description: 'Whether specified tags should be treated as a complete list `inclusive` or as a list of tags to add to the existing list `minimum`'
@@ -52,6 +52,7 @@ load_current_value do |new_resource|
   proxy_host node.dig('falcon', 'proxy', 'host')
   proxy_port node.dig('falcon', 'proxy', 'port').to_i # TODO: ensure it will not fail if nil
   proxy_enabled node.dig('falcon', 'proxy', 'enabled')
+  backend node.dig('falcon', 'backend')
 end
 
 def delete_option(option)
