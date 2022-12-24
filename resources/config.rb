@@ -15,6 +15,8 @@ property :tags, Array, default: [],
           description: 'The tags to set on the agent'
 property :provisioning_token, String, desired_state: false,
           description: 'The provisioning token to use to register the agent'
+property :backend, String, equal_to: %w(auto bpf kernel), desired_state: false,
+          description: 'The type of backend to use for the sensor [auto, bpf, kernel]'
 property :tag_membership, %w(minimum inclusive), default: 'minimum', desired_state: false,
           description: 'Whether specified tags should be treated as a complete list `inclusive` or as a list of tags to add to the existing list `minimum`'
 
@@ -99,6 +101,13 @@ action :set do
       shell_out!(cmd)
     end
   end
+
+  converge_if_changed :backend do
+    converge_by "Setting backend to #{new_resource.backend}" do
+      cmd = "#{FALCONCTL_CMD} -sf --backend=#{new_resource.backend}"
+      shell_out!(cmd)
+    end
+  end
 end
 
 action :delete do
@@ -129,6 +138,12 @@ action :delete do
   if property_is_set?(:proxy_enabled) && node.dig('falcon', 'proxy', 'enabled')
     converge_by "Deleting proxy_enabled #{new_resource.proxy_enabled}" do
       delete_option('apd')
+    end
+  end
+
+  if property_is_set?(:backend) && node.dig('falcon', 'backend')
+    converge_by "Deleting backend #{new_resource.backend}" do
+      delete_option('backend')
     end
   end
 end

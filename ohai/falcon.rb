@@ -69,6 +69,10 @@ Ohai.plugin(:Falcon) do
     falconctl_shell_out('billing')
   end
 
+  def get_backend
+    falconctl_shell_out('backend')
+  end
+
   collect_data(:default) do
     falcon Mash.new
     falcon[:version] = [packages['falcon-sensor']['version'], packages['falcon-sensor']['release']].join('-') if packages['falcon-sensor']
@@ -83,5 +87,6 @@ Ohai.plugin(:Falcon) do
     falcon[:proxy][:host] = get_aph
     falcon[:proxy][:port] = get_app
     falcon[:billing] = get_billing
+    falcon[:backend] = get_backend
   end
 end
