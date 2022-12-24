@@ -28,6 +28,13 @@ control 'config-cid' do
   end
 end
 
+control 'config-backend' do
+  desc 'Backend should be set to kernel'
+  describe command('/opt/CrowdStrike/falconctl -g --backend') do
+    its('stdout') { should match /backend=kernel/ }
+  end
+end
+
 control 'cleanup-installer' do
   desc 'Installer should be removed'
   describe command('find /tmp | grep "falcon-sensor"').stdout.strip do
