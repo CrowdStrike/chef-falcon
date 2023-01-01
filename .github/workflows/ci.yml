@@ -13,6 +13,20 @@ on:
       - 'resources/**'
       - 'test/**'
       - 'ohai/**'
+  workflow_call:
+    secrets:
+      FALCON_CLIENT_ID:
+        description: 'Falcon API Client ID'
+        required: true
+      FALCON_CLIENT_SECRET:
+        description: 'Falcon API Client Secret'
+        required: true
+      FALCON_CID:
+        description: 'Falcon API CID'
+        required: true
+      FALCON_CLOUD:
+        description: 'Falcon API Cloud'
+        required: true
 
 jobs:
   integration:

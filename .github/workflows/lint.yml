@@ -1,6 +1,9 @@
 name: "Lint Tests"
 
-on: [push, pull_request]
+on:
+  push:
+  workflow_call:
+  pull_request:
 
 jobs:
   lint-unit:
