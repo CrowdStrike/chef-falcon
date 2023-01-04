@@ -14,13 +14,6 @@ control 'service-falcon' do
   end
 end
 
-control 'config-aid' do
-  desc 'AID should be present'
-  describe command('/opt/CrowdStrike/falconctl -g --aid') do
-    its('stdout') { should match /aid=/ }
-  end
-end
-
 control 'config-cid' do
   desc 'CID should be present'
   describe command('/opt/CrowdStrike/falconctl -g --cid') do

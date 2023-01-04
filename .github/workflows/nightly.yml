@@ -1,0 +1,20 @@
+name: "nightly"
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  lint-unit:
+    name: "Run chef lint tests"
+    uses: ./.github/workflows/lint-unit.yml
+
+  integration:
+    name: "Run chef integration tests"
+    uses: ./.github/workflows/integration.yml
+    secrets:
+      FALCON_CLIENT_ID: ${{ secrets.FALCON_CLIENT_ID }}
+      FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
+      FALCON_CID: ${{ secrets.FALCON_CID }}
+      FALCON_CLOUD: ${{ secrets.FALCON_CLOUD }}
