@@ -7,12 +7,12 @@ on:
 
 jobs:
   lint-unit:
-    name: "Run chef lint tests"
-    uses: ./.github/workflows/lint-unit.yml
+    name: "Run Chef lint tests"
+    uses: ./.github/workflows/lint.yml
 
   integration:
-    name: "Run chef integration tests"
-    uses: ./.github/workflows/integration.yml
+    name: "Run Chef integration tests"
+    uses: ./.github/workflows/ci.yml
     secrets:
       FALCON_CLIENT_ID: ${{ secrets.FALCON_CLIENT_ID }}
       FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
