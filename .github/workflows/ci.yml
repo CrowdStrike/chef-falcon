@@ -84,7 +84,7 @@ jobs:
           FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
           FALCON_CID: ${{ secrets.FALCON_CID }}
           FALCON_CLOUD: ${{ secrets.FALCON_CLOUD }}
-          FALCON_VERSION: '6.44.14108'
+          FALCON_VERSION: '6.51.14810'
         with:
           timeout_minutes: 6
           max_attempts: 3
