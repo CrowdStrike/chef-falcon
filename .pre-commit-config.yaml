@@ -12,12 +12,12 @@ repos:
     hooks:
       - id: cookstyle
 
-  - repo: https://github.com/jumanjihouse/pre-commit-hooks
-    rev: 3.0.0
-    hooks:
-      - id: markdownlint
-
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.28.0
     hooks:
       - id: yamllint
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.6.0
+    hooks:
+      - id: markdownlint-cli2
