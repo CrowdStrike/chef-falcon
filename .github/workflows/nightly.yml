@@ -18,3 +18,4 @@ jobs:
       FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
       FALCON_CID: ${{ secrets.FALCON_CID }}
       FALCON_CLOUD: ${{ secrets.FALCON_CLOUD }}
+      FALCON_VERSION: ${{ secrets.FALCON_VERSION }}
