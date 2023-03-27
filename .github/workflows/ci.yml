@@ -29,6 +29,9 @@ on:
       FALCON_CLOUD:
         description: 'Falcon API Cloud'
         required: true
+      FALCON_VERSION:
+        description: 'Falcon API Version'
+        required: true
 
 jobs:
   integration:
