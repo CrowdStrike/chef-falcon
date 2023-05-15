@@ -19,7 +19,7 @@ module ChefFalcon
       attr_accessor :bearer_token
       attr_accessor :update_policy
       attr_accessor :platform_name
-      attr_accessor :version
+      attr_accessor :cookbook_version
 
       # Initialize a new FalconApi instance.
       # - falcon_cloud - the name of the falcon cloud to use.
@@ -40,7 +40,7 @@ module ChefFalcon
                         end
         @client_id = client_id
         @client_secret = client_secret
-        @version = '0.1.1'
+        @cookbook_version = '0.1.2'
       end
 
       # Returns the version of the sensor installer for the given policy and platform name.
@@ -53,7 +53,7 @@ module ChefFalcon
         request = Net::HTTP::Get.new(url_path)
         request['Content-Type'] = 'application/json'
         request['Authorization'] = "Bearer #{@bearer_token}"
-        request['User-Agent'] = "crowdstrike-chef/#{@version}"
+        request['User-Agent'] = "crowdstrike-chef/#{@cookbook_version}"
 
         resp = @http_client.request(request)
 
@@ -72,8 +72,7 @@ module ChefFalcon
             raise
           end
 
-          @version = body['resources'][0]['settings']['sensor_version']
-          version
+          body['resources'][0]['settings']['sensor_version']
         else
           Chef::Log.error(sanitize_error_message("Falcon API error when calling #{url_path} - #{resp.code} #{resp.message} #{resp.body}"))
           raise
@@ -91,7 +90,7 @@ module ChefFalcon
         request = Net::HTTP::Get.new(url_path)
         request['Content-Type'] = 'application/json'
         request['Authorization'] = "Bearer #{@bearer_token}"
-        request['User-Agent'] = "crowdstrike-chef/#{@version}"
+        request['User-Agent'] = "crowdstrike-chef/#{@cookbook_version}"
 
         resp = @http_client.request(request)
 
@@ -120,7 +119,7 @@ module ChefFalcon
         request = Net::HTTP::Get.new(url_path)
         request['Content-Type'] = 'application/json'
         request['Authorization'] = "Bearer #{@bearer_token}"
-        request['User-Agent'] = "crowdstrike-chef/#{@version}"
+        request['User-Agent'] = "crowdstrike-chef/#{@cookbook_version}"
 
         resp = @http_client.request(request)
 
@@ -166,7 +165,7 @@ module ChefFalcon
 
         request = Net::HTTP::Post.new(url_path)
         request['Content-Type'] = 'application/x-www-form-urlencoded'
-        request['User-Agent'] = "crowdstrike-chef/#{@version}"
+        request['User-Agent'] = "crowdstrike-chef/#{@cookbook_version}"
         request.body = URI.encode_www_form(req_body)
 
         resp = @http_client.request(request)
