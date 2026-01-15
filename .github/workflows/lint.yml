@@ -2,15 +2,21 @@ name: "Lint Tests"
 
 on:
   push:
+    branches:
+      - main
   workflow_call:
   pull_request:
 
+# Workflow-level permissions - restrict to read-only by default
+permissions: read-all
+
 jobs:
   lint-unit:
-    uses: sous-chefs/.github/.github/workflows/lint-unit.yml@2.0.1
+    # Pin to commit SHA for security
+    uses: sous-chefs/.github/.github/workflows/lint-unit.yml@1bd0cd79d49e32c55efd9227776ad90afcb2d89b  # 2.0.1
+    # Permissions required by the reusable workflow for status checks
+    # These are the minimum permissions needed for the sous-chefs lint workflow
     permissions:
-      actions: write
+      contents: read
       checks: write
-      pull-requests: write
       statuses: write
-      issues: write
