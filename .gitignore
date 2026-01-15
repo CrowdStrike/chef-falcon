@@ -24,3 +24,13 @@ Policyfile.lock.json
 .idea/
 
 .kitchen.local.yml
+
+# AI Assistant Files #
+######################
+CLAUDE.md
+.claude/
+.cursorrules
+.cursor/
+.aider*
+.copilot/
+.github/copilot-*

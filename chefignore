@@ -113,3 +113,13 @@ UPGRADING*
 ###########
 .vagrant
 Vagrantfile
+
+# AI Assistant Files #
+######################
+CLAUDE.md
+.claude/*
+.cursorrules
+.cursor/*
+.aider*
+.copilot/*
+.github/copilot-*
